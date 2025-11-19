@@ -1,0 +1,163 @@
+import React from 'react'
+
+// RIALO Landing Page - Single-file React component (TailwindCSS)
+// Instructions:
+// 1) Add this file to a React/Next.js project (e.g. src/components/RialoLanding.jsx or pages/index.jsx)
+// 2) Ensure TailwindCSS is installed and configured in the project.
+// 3) Replace placeholder links, images and text where noted below.
+
+export default function RialoLanding() {
+  return (
+    <div className="min-h-screen bg-[#0b0f1a] text-gray-100 antialiased">
+      {/* Container */}
+      <div className="max-w-6xl mx-auto px-6 py-12">
+
+        {/* Header */}
+        <header className="flex items-center justify-between mb-12">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-400 flex items-center justify-center shadow-lg">
+              <span className="font-bold">R</span>
+            </div>
+            <div>
+              <h1 className="font-extrabold text-xl tracking-tight">RIALO</h1>
+              <p className="text-xs text-gray-300">Rethink. Rebuild.</p>
+            </div>
+          </div>
+
+          <nav className="flex items-center gap-4">
+            <a href="#projects" className="text-sm hover:underline">Projects</a>
+            <a href="#gallery" className="text-sm hover:underline">Gallery</a>
+            <a href="#community" className="text-sm hover:underline">Community</a>
+            <a href="#" className="ml-4 px-3 py-2 bg-indigo-500 rounded-full text-sm font-medium shadow hover:brightness-105">Join</a>
+          </nav>
+        </header>
+
+        {/* Hero */}
+        <section className="grid md:grid-cols-2 gap-8 items-center mb-16">
+          <div>
+            <h2 className="text-4xl md:text-5xl font-extrabold leading-tight">
+              Rethink. Rebuild. <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-300">RIALO.</span>
+            </h2>
+            <p className="mt-4 text-gray-300 max-w-xl">Building tools, stories and culture for the next wave of creators. Simple tools, ritual drops, and community-first experiences for artists, memers and builders.</p>
+
+            <div className="mt-6 flex gap-3">
+              <a href="#projects" className="px-5 py-3 bg-white text-black rounded-2xl font-medium shadow">Explore Projects</a>
+              <a href="#community" className="px-5 py-3 border border-gray-700 rounded-2xl text-sm">Join Community</a>
+            </div>
+
+            <div className="mt-6 flex items-center gap-4 text-sm text-gray-400">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-green-400" />
+                <span>Creators Active Today: <strong className="text-white">128</strong></span>
+              </div>
+              <div className="h-6 w-px bg-gray-700" />
+              <div>Quote: <em>"Some Nights Create Art... Some Nights Create Purpose."</em></div>
+            </div>
+          </div>
+
+          <div className="mx-auto w-full max-w-md">
+            {/* Visual card - replace with real image or component */}
+            <div className="rounded-2xl overflow-hidden bg-gradient-to-br from-[#071026] to-[#0b1330] p-6 shadow-xl">
+              <div className="h-64 bg-[linear-gradient(135deg,#182235,#0b1220)] rounded-xl flex items-center justify-center text-gray-400"> 
+                <div className="text-center">
+                  <div className="text-sm uppercase tracking-wider text-gray-500">RITUAL • RDROP</div>
+                  <h3 className="text-2xl font-bold mt-2">The Ritual Experience</h3>
+                  <p className="mt-2 text-xs text-gray-400 max-w-xs">A new way to celebrate art, memes & community energy. Submit — Review — Mint — Celebrate.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* About / What He Does */}
+        <section id="projects" className="mb-16">
+          <h3 className="text-2xl font-bold mb-4">What RIALO Builds</h3>
+          <div className="grid md:grid-cols-3 gap-6">
+            <FeatureCard title="Tools" desc="Lightweight, itch-scratching tools for creators and builders." emoji="🛠️" />
+            <FeatureCard title="Art & Lore" desc="Visual storytelling that shapes culture and imagination." emoji="🎨" />
+            <FeatureCard title="Community" desc="Rituals, drops and collaboration spaces that grow creators together." emoji="🤝" />
+          </div>
+        </section>
+
+        {/* Ritual Section */}
+        <section className="mb-16 bg-gradient-to-br from-[#071028]/30 to-transparent p-6 rounded-2xl">
+          <div className="md:flex md:items-center md:justify-between">
+            <div>
+              <h4 className="text-xl font-bold">The Ritual</h4>
+              <p className="text-gray-300 max-w-xl mt-2">A highlight of RIALO's work — a ritualized drop experience where creators submit art, the community reviews, and special pieces get minted for collectors.</p>
+
+              <ol className="mt-4 flex flex-col gap-2 text-sm text-gray-300">
+                <li>1. Submit — Share your piece</li>
+                <li>2. Review — Community feedback</li>
+                <li>3. Mint — Limited drops</li>
+                <li>4. Celebrate — Collector & artist moments</li>
+              </ol>
+            </div>
+
+            <div className="mt-6 md:mt-0">
+              <a href="#gallery" className="inline-block px-4 py-3 bg-indigo-500 rounded-2xl font-medium shadow">See Ritual Gallery</a>
+            </div>
+          </div>
+        </section>
+
+        {/* Gallery */}
+        <section id="gallery" className="mb-16">
+          <h3 className="text-2xl font-bold mb-6">Gallery</h3>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="rounded-xl overflow-hidden bg-[#071026] p-3">
+                <div className="h-40 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-gray-500">Image {i + 1}</div>
+                <div className="mt-3">
+                  <div className="font-semibold">Siggy #{i + 1}</div>
+                  <div className="text-xs text-gray-400">Short description or edition info</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Community */}
+        <section id="community" className="mb-12">
+          <h3 className="text-2xl font-bold mb-4">Become a Part of the Culture</h3>
+          <p className="text-gray-300 max-w-2xl">Creators first. Culture always. Connect on X, Discord and Ritual pages to join drops, collabs, and events.</p>
+
+          <div className="mt-6 flex gap-3">
+            <ExternalLink label="X / Twitter" href="#" />
+            <ExternalLink label="Discord" href="#" />
+            <ExternalLink label="Cura / Ritual" href="#" />
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="pt-8 border-t border-gray-800">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <div className="font-bold">RIALO</div>
+              <div className="text-xs text-gray-400">Rethink. Rebuild. RIALO.</div>
+            </div>
+
+            <div className="text-sm text-gray-400">© {new Date().getFullYear()} RIALO — Built with community in mind</div>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+  )
+}
+
+
+function FeatureCard({ title, desc, emoji }) {
+  return (
+    <div className="rounded-xl p-5 bg-gradient-to-br from-[#071026] to-[#081128] shadow">
+      <div className="text-2xl">{emoji}</div>
+      <div className="mt-3 font-semibold">{title}</div>
+      <div className="mt-2 text-sm text-gray-400">{desc}</div>
+    </div>
+  )
+}
+
+function ExternalLink({ label, href }) {
+  return (
+    <a href={href} className="px-4 py-2 border border-gray-700 rounded-full text-sm hover:bg-white/5">{label}</a>
+  )
+}
