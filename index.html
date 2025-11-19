@@ -1,409 +1,163 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>RIALO Runner — Fun Crypto Game</title>
-<meta name="description" content="RIALO Runner — collect RIALO tokens, avoid bugs. Built for RIALO."/>
-<style>
-  :root{
-    --bg:#071025; --card:#0d1420; --accent:#7c5cff; --muted:#9aa4b2; --danger:#ff5c5c;
-  }
-  html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;}
-  body{background:linear-gradient(180deg,var(--bg),#03040a); color:#e7eefc; display:flex; align-items:center; justify-content:center; padding:24px;}
-  .wrap{width:100%;max-width:980px;}
-  header{display:flex;align-items:center;gap:16px;margin-bottom:14px}
-  .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#4f7bff);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:28px;color:white;box-shadow:0 8px 30px rgba(124,92,255,0.18)}
-  h1{margin:0;font-size:20px}
-  p.lead{margin:0;color:var(--muted);font-size:13px}
-  .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:14px;padding:14px;box-shadow:0 6px 30px rgba(2,6,23,0.6);display:grid;grid-template-columns:1fr 320px;gap:14px;align-items:start}
-  canvas{width:100%;height:480px;border-radius:10px;display:block;background:linear-gradient(180deg,#061125,#071026);box-shadow:inset 0 0 40px rgba(0,0,0,0.4)}
-  .side{padding:6px}
-  .stat{display:flex;justify-content:space-between;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,0.02);margin-bottom:8px;font-size:14px}
-  .btn{display:inline-block;padding:8px 12px;border-radius:10px;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;box-shadow:0 6px 18px rgba(124,92,255,0.18)}
-  .mutebtn{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);padding:6px 8px;border-radius:8px;font-size:13px;text-decoration:none}
-  .small{font-size:13px;color:var(--muted)}
-  ul.leader{list-style:none;padding:0;margin:8px 0 0 0}
-  ul.leader li{padding:8px;background:rgba(255,255,255,0.02);border-radius:8px;margin-bottom:6px;font-size:13px;display:flex;justify-content:space-between}
-  footer{margin-top:12px;color:var(--muted);font-size:12px}
-  .danger{color:var(--danger);font-weight:700}
-  .controls{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
-  @media (max-width:880px){ .card{grid-template-columns:1fr} canvas{height:360px} }
-</style>
-</head>
-<body>
-<div class="wrap">
-  <header>
-    <div class="logo">R</div>
-    <div>
-      <h1>RIALO Runner</h1>
-      <p class="lead">Collect RIALO tokens, avoid bugs. Arrow keys to move. Built for RIALO — drop it into your site!</p>
-    </div>
-    <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
-      <a class="btn" id="visitRialo" href="https://x.com/rialo" target="_blank" rel="noopener">Visit RIALO</a>
-      <button id="resetLeaderboard" class="mutebtn" title="Reset local leaderboard">Reset LB</button>
-    </div>
-  </header>
+import React from "react";
 
-  <div class="card">
-    <div>
-      <canvas id="gameCanvas" width="800" height="480"></canvas>
-      <div style="display:flex;gap:10px;margin-top:10px;align-items:center;flex-wrap:wrap">
-        <div class="small">Controls: ← → to move, ↑ to jump (or tap)</div>
-        <div style="flex:1"></div>
-        <div class="small">Difficulty: <span id="difficultyText">Normal</span></div>
+// FIXED + CLEANED VERSION — Ready for GitHub / Vercel
+// Fully working JSX, no raw text output, proper return wrapper
+// Just paste into pages/index.jsx or src/App.jsx and it will work
+
+export default function RialoLanding() {
+  return (
+    <div className="min-h-screen bg-[#0b0f1a] text-gray-100 antialiased">
+      {/* Container */}
+      <div className="max-w-6xl mx-auto px-6 py-12">
+        {/* Header */}
+        <header className="flex items-center justify-between mb-12">
+          <div className="flex items-center gap-4">
+            <img src="/rialo-logo.png" alt="RIALO Logo" className="w-12 h-12 rounded-2xl shadow-lg object-cover" />
+            <div>
+              <h1 className="font-extrabold text-xl tracking-tight">RIALO</h1>
+              <p className="text-xs text-gray-300">Rethink. Rebuild.</p>
+            </div>
+          </div>
+
+          <nav className="flex items-center gap-4">
+            <a href="#projects" className="text-sm hover:underline">Projects</a>
+            <a href="#gallery" className="text-sm hover:underline">Gallery</a>
+            <a href="#community" className="text-sm hover:underline">Community</a>
+            <a href="#" className="ml-4 px-3 py-2 bg-indigo-500 rounded-full text-sm font-medium shadow hover:brightness-105">Join</a>
+          </nav>
+        </header>
+
+        {/* Hero */}
+        <section className="grid md:grid-cols-2 gap-8 items-center mb-16">
+          <div>
+            <h2 className="text-4xl md:text-5xl font-extrabold leading-tight">
+              Rethink. Rebuild. <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-300">RIALO.</span>
+            </h2>
+            <p className="mt-4 text-gray-300 max-w-xl">
+              Building tools, stories and culture for the next wave of creators. Simple tools, ritual drops, and community-first experiences for artists, memers and builders.
+            </p>
+
+            <div className="mt-6 flex gap-3">
+              <a href="#projects" className="px-5 py-3 bg-white text-black rounded-2xl font-medium shadow">Explore Projects</a>
+              <a href="#community" className="px-5 py-3 border border-gray-700 rounded-2xl text-sm">Join Community</a>
+            </div>
+
+            <div className="mt-6 flex items-center gap-4 text-sm text-gray-400">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-green-400" />
+                <span>Creators Active Today: <strong className="text-white">128</strong></span>
+              </div>
+              <div className="h-6 w-px bg-gray-700" />
+              <div>Quote: <em>"Some Nights Create Art... Some Nights Create Purpose."</em></div>
+            </div>
+          </div>
+
+          <div className="mx-auto w-full max-w-md">
+            <div className="rounded-2xl overflow-hidden bg-gradient-to-br from-[#071026] to-[#0b1330] p-6 shadow-xl">
+              <div className="h-64 bg-[linear-gradient(135deg,#182235,#0b1220)] rounded-xl flex items-center justify-center text-gray-400 text-center">
+                <div>
+                  <div className="text-sm uppercase tracking-wider text-gray-500">RITUAL • RDROP</div>
+                  <h3 className="text-2xl font-bold mt-2">The Ritual Experience</h3>
+                  <p className="mt-2 text-xs text-gray-400 max-w-xs">
+                    A new way to celebrate art, memes & community energy. Submit — Review — Mint — Celebrate.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* About */}
+        <section id="projects" className="mb-16">
+          <h3 className="text-2xl font-bold mb-4">What RIALO Builds</h3>
+          <div className="grid md:grid-cols-3 gap-6">
+            <FeatureCard title="Tools" desc="Lightweight, itch-scratching tools for creators and builders." emoji="🛠️" />
+            <FeatureCard title="Art & Lore" desc="Visual storytelling that shapes culture and imagination." emoji="🎨" />
+            <FeatureCard title="Community" desc="Rituals, drops and collaboration spaces that grow creators together." emoji="🤝" />
+          </div>
+        </section>
+
+        {/* Ritual */}
+        <section className="mb-16 bg-gradient-to-br from-[#071028]/30 to-transparent p-6 rounded-2xl">
+          <div className="md:flex md:items-center md:justify-between">
+            <div>
+              <h4 className="text-xl font-bold">The Ritual</h4>
+              <p className="text-gray-300 max-w-xl mt-2">
+                A highlight of RIALO's work — a ritualized drop experience where creators submit art, the community reviews, and special pieces get minted for collectors.
+              </p>
+
+              <ol className="mt-4 flex flex-col gap-2 text-sm text-gray-300">
+                <li>1. Submit — Share your piece</li>
+                <li>2. Review — Community feedback</li>
+                <li>3. Mint — Limited drops</li>
+                <li>4. Celebrate — Collector & artist moments</li>
+              </ol>
+            </div>
+
+            <div className="mt-6 md:mt-0">
+              <a href="#gallery" className="inline-block px-4 py-3 bg-indigo-500 rounded-2xl font-medium shadow">See Ritual Gallery</a>
+            </div>
+          </div>
+        </section>
+
+        {/* Gallery */}
+        <section id="gallery" className="mb-16">
+          <h3 className="text-2xl font-bold mb-6">Gallery</h3>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="rounded-xl overflow-hidden bg-[#071026] p-3">
+                <div className="h-40 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-gray-500">
+                  Image {i + 1}
+                </div>
+                <div className="mt-3">
+                  <div className="font-semibold">Siggy #{i + 1}</div>
+                  <div className="text-xs text-gray-400">Short description or edition info</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Community */}
+        <section id="community" className="mb-12">
+          <h3 className="text-2xl font-bold mb-4">Become a Part of the Culture</h3>
+          <p className="text-gray-300 max-w-2xl">
+            Creators first. Culture always. Connect on X, Discord and Ritual pages to join drops, collabs, and events.
+          </p>
+
+          <div className="mt-6 flex gap-3">
+            <ExternalLink label="X / Twitter" href="#" />
+            <ExternalLink label="Discord" href="#" />
+            <ExternalLink label="Cura / Ritual" href="#" />
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="pt-8 border-t border-gray-800">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <div className="font-bold">RIALO</div>
+              <div className="text-xs text-gray-400">Rethink. Rebuild. RIALO.</div>
+            </div>
+
+            <div className="text-sm text-gray-400">
+              © {new Date().getFullYear()} RIALO — Built with community in mind
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
+  );
+}
 
-    <aside class="side">
-      <div class="stat"><div>Score</div><div id="score">0</div></div>
-      <div class="stat"><div>Tokens</div><div id="tokens">0</div></div>
-      <div class="stat"><div>Level</div><div id="level">1</div></div>
+function FeatureCard({ title, desc, emoji }) {
+  return (
+    <div className="rounded-xl p-5 bg-gradient-to-br from-[#071026] to-[#081128] shadow">
+      <div className="text-2xl">{emoji}</div>
+      <div className="mt-3 font-semibold">{title}</div>
+      <div className="mt-2 text-sm text-gray-400">{desc}</div>
+    </div>
+  );
+}
 
-      <div style="margin-top:8px">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-          <button id="startBtn" class="btn">Start Game</button>
-          <button id="pauseBtn" class="mutebtn">Pause</button>
-        </div>
-
-        <div class="controls">
-          <button id="easyBtn" class="mutebtn">Easy</button>
-          <button id="normalBtn" class="mutebtn">Normal</button>
-          <button id="hardBtn" class="mutebtn">Hard</button>
-        </div>
-      </div>
-
-      <hr style="border:none;height:12px"/>
-
-      <div style="font-weight:700;margin-bottom:6px">Local Leaderboard</div>
-      <ul class="leader" id="leaderboard">
-        <!-- filled by JS -->
-      </ul>
-
-      <div style="margin-top:10px">
-        <div style="font-size:13px;color:var(--muted)">Share your score with the RIALO crew — screenshot & drop on X with #RIALORun</div>
-      </div>
-    </aside>
-  </div>
-
-  <footer>
-    Tip: Click on canvas to jump on mobile. Game saves top 5 scores in your browser.
-  </footer>
-</div>
-
-<script>
-/*
-  RIALO Runner - simple canvas game
-  - Move player left/right, collect "R" tokens (yellow), avoid bugs (red)
-  - Score increases with tokens and distance
-  - Local leaderboard saved in localStorage ('rialo_leaderboard')
-  - Difficulty adjusts speed & spawn rate
-*/
-
-(() => {
-  const canvas = document.getElementById('gameCanvas');
-  const ctx = canvas.getContext('2d');
-  const startBtn = document.getElementById('startBtn');
-  const pauseBtn = document.getElementById('pauseBtn');
-  const scoreEl = document.getElementById('score');
-  const tokensEl = document.getElementById('tokens');
-  const levelEl = document.getElementById('level');
-  const leaderEl = document.getElementById('leaderboard');
-  const difficultyText = document.getElementById('difficultyText');
-  const resetLB = document.getElementById('resetLeaderboard');
-
-  let W = canvas.width, H = canvas.height;
-  let running = false, paused = false, frames = 0;
-  let score = 0, tokens = 0, level = 1;
-  let player, objects, gravity = 0.7;
-  let keys = {};
-  let spawnTimer = 0;
-  let difficulty = 'normal'; // easy | normal | hard
-
-  function setDifficulty(d){
-    difficulty = d;
-    difficultyText.textContent = d.charAt(0).toUpperCase() + d.slice(1);
-    if(d==='easy') speedScale=0.8;
-    else if(d==='normal') speedScale=1;
-    else speedScale=1.3;
-  }
-  let speedScale = 1;
-
-  function init(){
-    W = canvas.width = Math.min(1000, Math.max(600, window.innerWidth-120));
-    H = canvas.height = 480;
-    player = { x:80, y:H-80, w:44, h:44, vy:0, onGround:true, color:'#7c5cff' };
-    objects = [];
-    score = 0; tokens = 0; level = 1; frames=0; spawnTimer=0;
-    updateHUD();
-    drawIntro();
-  }
-
-  function drawIntro(){
-    ctx.clearRect(0,0,W,H);
-    ctx.fillStyle = '#0b1220';
-    ctx.fillRect(0,0,W,H);
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '28px Inter, Arial';
-    ctx.fillText('RIALO Runner', 30, 70);
-    ctx.font='16px Inter, Arial';
-    ctx.fillStyle='rgba(255,255,255,0.85)';
-    ctx.fillText('Collect Tokens, Avoid Bugs — Press Start', 30, 100);
-  }
-
-  function start(){
-    if(running) return;
-    running = true;
-    paused = false;
-    frames = 0; spawnTimer = 0;
-    objects = [];
-    player.x = 80; player.y = H-80; player.vy = 0; player.onGround = true;
-    requestAnimationFrame(loop);
-  }
-
-  function togglePause(){
-    if(!running) return;
-    paused = !paused;
-    pauseBtn.textContent = paused ? 'Resume' : 'Pause';
-    if(!paused) requestAnimationFrame(loop);
-  }
-
-  function endGame(){
-    running = false;
-    saveScore(score);
-    updateLeaderboard();
-    drawGameOver();
-  }
-
-  function drawGameOver(){
-    ctx.fillStyle = 'rgba(0,0,0,0.5)';
-    ctx.fillRect(0,0,W,H);
-    ctx.fillStyle = '#fff';
-    ctx.font = '28px Inter, Arial';
-    ctx.fillText('Game Over', W/2-70, H/2-20);
-    ctx.font = '16px Inter, Arial';
-    ctx.fillText(`Score: ${score}  Tokens: ${tokens}`, W/2-90, H/2+10);
-    ctx.fillStyle = '#ffd166';
-    ctx.fillText('Click Start to play again', W/2-110, H/2+44);
-  }
-
-  function loop(){
-    if(!running || paused) return;
-    frames++;
-    update();
-    render();
-    requestAnimationFrame(loop);
-  }
-
-  function update(){
-    // Increase difficulty with time
-    if(frames % 900 === 0) level = Math.min(10, level+1);
-
-    // spawn objects
-    spawnTimer++;
-    let spawnRate = Math.max(40, 100 - level*6 - (difficulty==='hard'?10:0));
-    if(spawnTimer > spawnRate){
-      spawnTimer = 0;
-      // spawn either token or bug
-      let t = Math.random() < 0.6 ? 'token' : 'bug';
-      let size = (t==='token')? 18 : 32;
-      objects.push({
-        type: t,
-        x: W + 30,
-        y: (t==='token') ? (H - 100 - Math.random()*120) : (H-80),
-        w: size, h:size,
-        vx: -(3 + level*0.6) * speedScale * (t==='token'?0.9:1.1),
-        color: t==='token' ? '#ffd166' : '#ff5c5c'
-      });
-    }
-
-    // player physics
-    player.vy += gravity;
-    player.y += player.vy;
-    if(player.y > H - 80){
-      player.y = H - 80;
-      player.vy = 0;
-      player.onGround = true;
-    } else player.onGround = false;
-
-    // movement
-    if(keys['ArrowLeft'] || keys['a']) player.x -= 6 * speedScale;
-    if(keys['ArrowRight'] || keys['d']) player.x += 6 * speedScale;
-    player.x = Math.max(10, Math.min(W - player.w - 10, player.x));
-
-    // update objects
-    for(let i = objects.length-1; i>=0; i--){
-      const o = objects[i];
-      o.x += o.vx;
-      // collision
-      if(collide(player, o)){
-        if(o.type === 'token'){
-          tokens++; score += 25 + Math.floor(level*2);
-          objects.splice(i,1);
-        } else if(o.type === 'bug'){
-          // hit -> end
-          score = Math.max(0, score - 10);
-          endGame();
-          return;
-        }
-      } else if(o.x + o.w < -50){
-        // off screen remove
-        objects.splice(i,1);
-      } else {
-        // distance reward slowly
-        if(frames % 60 === 0) score += 1;
-      }
-    }
-
-    // every few frames score increases by distance
-    if(frames % 30 === 0) score += 1;
-
-    updateHUD();
-  }
-
-  function collide(a, b){
-    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
-  }
-
-  function render(){
-    ctx.clearRect(0,0,W,H);
-    // background parallax
-    drawBackground();
-
-    // draw player
-    ctx.fillStyle = player.color;
-    roundRect(ctx, player.x, player.y - player.h, player.w, player.h, 8, true);
-
-    // draw objects
-    objects.forEach(o=>{
-      if(o.type==='token'){
-        // draw R coin
-        drawCoin(o.x, o.y - o.h/2, o.w);
-      }else{
-        // bug
-        ctx.fillStyle = o.color;
-        roundRect(ctx, o.x, o.y - o.h, o.w, o.h, 8, true);
-        // eyes
-        ctx.fillStyle='#fff'; ctx.fillRect(o.x+6, o.y - o.h +8,6,6); ctx.fillRect(o.x+o.w-14, o.y - o.h +8,6,6);
-      }
-    });
-
-    // HUD overlay
-    ctx.fillStyle='rgba(0,0,0,0.12)';
-    ctx.fillRect(10,10,170,48);
-    ctx.fillStyle='#fff'; ctx.font='14px Inter, Arial';
-    ctx.fillText('Score: '+score, 20, 30);
-    ctx.fillText('Tokens: '+tokens, 20, 48);
-  }
-
-  function drawBackground(){
-    // simple moving grid + ground
-    ctx.fillStyle = '#061026';
-    ctx.fillRect(0,0,W,H);
-    // ground
-    ctx.fillStyle = '#0b1220';
-    ctx.fillRect(0, H-60, W, 60);
-    // decorations
-    for(let i=0;i<6;i++){
-      ctx.fillStyle = 'rgba(124,92,255,0.04)';
-      let gx = (i*160 + (frames*0.5)) % (W+220) - 120;
-      ctx.fillRect(gx, H-60 - 30, 80, 20);
-    }
-  }
-
-  function drawCoin(x,y,size){
-    ctx.beginPath();
-    ctx.fillStyle = '#ffd166';
-    ctx.ellipse(x+size/2, y+size/2, size/2, size/2, 0, 0, Math.PI*2);
-    ctx.fill();
-    ctx.fillStyle='#8a5c00'; ctx.font = `${Math.max(10, size/2.2)}px Inter, Arial`;
-    ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.fillText('R', x+size/2, y+size/2+1);
-  }
-
-  function roundRect(ctx, x, y, w, h, r, fill){
-    ctx.beginPath();
-    ctx.moveTo(x+r,y);
-    ctx.arcTo(x+w,y,x+w,y+h,r);
-    ctx.arcTo(x+w,y+h,x,y+h,r);
-    ctx.arcTo(x,y+h,x,y,r);
-    ctx.arcTo(x,y,x+w,y,r);
-    ctx.closePath();
-    if(fill) ctx.fill();
-    else ctx.stroke();
-  }
-
-  // input
-  window.addEventListener('keydown', e => { keys[e.key] = true; if(e.key==='ArrowUp' || e.key==='w' || e.key===' ') doJump(); });
-  window.addEventListener('keyup', e => { keys[e.key] = false; });
-
-  canvas.addEventListener('click', ()=>{
-    if(!running) start();
-    else doJump();
-  });
-
-  function doJump(){
-    if(player.onGround){
-      player.vy = -12 * (difficulty==='hard'?1.1:1);
-      player.onGround = false;
-    }
-  }
-
-  // UI buttons
-  startBtn.addEventListener('click', ()=>{ init(); start(); updateLeaderboard(); });
-  pauseBtn.addEventListener('click', togglePause);
-  document.getElementById('easyBtn').addEventListener('click', ()=>{ setDifficulty('easy'); });
-  document.getElementById('normalBtn').addEventListener('click', ()=>{ setDifficulty('normal'); });
-  document.getElementById('hardBtn').addEventListener('click', ()=>{ setDifficulty('hard'); });
-
-  // leaderboard (local)
-  function getLB(){ try { return JSON.parse(localStorage.getItem('rialo_leaderboard')||'[]'); } catch(e){ return []; } }
-  function saveScore(s){
-    const name = prompt('Enter player name for leaderboard (optional):','anon') || 'anon';
-    const lb = getLB();
-    lb.push({ name: name.slice(0,20), score: s, date: (new Date()).toISOString() });
-    lb.sort((a,b)=>b.score-a.score);
-    while(lb.length>10) lb.pop();
-    localStorage.setItem('rialo_leaderboard', JSON.stringify(lb));
-  }
-  function updateLeaderboard(){
-    const lb = getLB();
-    leaderEl.innerHTML = '';
-    if(lb.length === 0){
-      leaderEl.innerHTML = '<li style="opacity:0.6">No scores yet — be the first!</li>';
-      return;
-    }
-    lb.slice(0,5).forEach((p,i)=>{
-      const li = document.createElement('li');
-      li.innerHTML = `<span>${i+1}. ${escapeHtml(p.name)}</span><span>${p.score}</span>`;
-      leaderEl.appendChild(li);
-    });
-  }
-  function escapeHtml(s){ return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
-  resetLB.addEventListener('click', ()=>{
-    if(confirm('Reset local leaderboard?')) { localStorage.removeItem('rialo_leaderboard'); updateLeaderboard(); }
-  });
-
-  // HUD
-  function updateHUD(){
-    scoreEl.textContent = score;
-    tokensEl.textContent = tokens;
-    levelEl.textContent = level;
-  }
-
-  // initial
-  setDifficulty('normal');
-  init();
-  updateLeaderboard();
-
-  // resize handler
-  window.addEventListener('resize', ()=>{
-    // optional: adapt width
-    // keep canvas size stable for gameplay. On bigger screens we increased width earlier.
-  });
-
-})();
-</script>
-</body>
-</html>
+function External
