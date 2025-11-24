@@ -1,102 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rialo X Logo Customizer</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rialo X Logo Customizer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f4f0e8;
+      margin: 0;
+      padding: 20px;
+    }
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f0e8;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
+    .logo-box {
+      width: 200px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      transition: 0.3s ease;
+    }
 
-        .logo-box {
-            width: 260px;
-            height: 260px;
-            background: #ede7f6;
-            border-radius: 20px;
-            margin: 20px auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: 0.3s ease;
-        }
+    #mainLogo {
+      width: 120px;
+      filter: brightness(0) saturate(100%);
+      transition: 0.3s ease;
+    }
 
-        #mainLogo {
-            width: 160px;
-            height: auto;
-            transition: 0.3s ease;
-        }
+    .section {
+      margin-bottom: 20px;
+    }
 
-        .section {
-            margin-top: 25px;
-        }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
 
-        .footer {
-            margin-top: 40px;
-            font-size: 14px;
-        }
+    input[type="color"], input[type="text"] {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      width: 140px;
+    }
 
-        a {
-            color: black;
-            font-weight: bold;
-            text-decoration: none;
-        }
-    </style>
+    .footer {
+      margin-top: 40px;
+      font-size: 14px;
+    }
+    a {
+      color: black;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  </style>
 </head>
-
 <body>
 
-    <h2>Rialo X Logo Customizer</h2>
+  <h2>Rialo X Logo Color Customizer</h2>
 
-    <!-- LOGO BOX -->
-    <div class="logo-box" id="bgBox">
-        <img id="mainLogo" src="./logo-main.png" alt="Logo" />
-    </div>
+  <div class="logo-box" id="bgBox">
+    <img id="mainLogo" src="./logo-main.jpg" alt="Logo" />
+  </div>
 
-    <!-- Background Color -->
-    <div class="section">
-        <label><b>Background Color</b></label><br>
-        <input type="color" id="bgColorPicker" value="#f4f0e8">
-    </div>
+  <!-- Background Color -->
+  <div class="section">
+    <label>Background Color</label>
+    <input type="color" id="bgColorPicker" value="#f4f0e8" />
+    <br/><br/>
+    <label>Background Color (Hex Code)</label>
+    <input type="text" id="bgHex" placeholder="#ffffff" />
+  </div>
 
-    <!-- Logo Color -->
-    <div class="section">
-        <label><b>Logo Color</b></label><br>
-        <input type="color" id="logoColorPicker" value="#000000">
-    </div>
+  <!-- Logo Color -->
+  <div class="section">
+    <label>Logo Color</label>
+    <input type="color" id="logoColorPicker" value="#000000" />
+    <br/><br/>
+    <label>Logo Color (Hex Code)</label>
+    <input type="text" id="logoHex" placeholder="#000000" />
+  </div>
 
-    <div class="footer">
-        Made by Aryan — <a href="https://x.com/AryanXbt" target="_blank">@AryanXbt</a>
-    </div>
+  <div class="footer">
+    Made by Aryan — <a href="https://x.com/AryanXbt" target="_blank">@AryanXbt</a>
+  </div>
 
-    <script>
-        // BG color change
-        const bgPicker = document.getElementById("bgColorPicker");
-        const bgBox = document.getElementById("bgBox");
+<script>
+// Background color change
+const bgPicker = document.getElementById("bgColorPicker");
+const bgHex = document.getElementById("bgHex");
+const bgBox = document.getElementById("bgBox");
 
-        bgPicker.addEventListener("input", () => {
-            bgBox.style.background = bgPicker.value;
-        });
+bgPicker.addEventListener("input", () => {
+  bgBox.style.background = bgPicker.value;
+  bgHex.value = bgPicker.value;
+});
 
-        // Logo color change
-        const logoPicker = document.getElementById("logoColorPicker");
-        const mainLogo = document.getElementById("mainLogo");
+bgHex.addEventListener("input", () => {
+  if (/^#([0-9A-F]{3}){1,2}$/i.test(bgHex.value)) {
+    bgBox.style.background = bgHex.value;
+    bgPicker.value = bgHex.value;
+  }
+});
 
-        logoPicker.addEventListener("input", () => {
-            const color = logoPicker.value;
+// Logo color change
+const logoPicker = document.getElementById("logoColorPicker");
+const logoHex = document.getElementById("logoHex");
+const mainLogo = document.getElementById("mainLogo");
 
-            // Re-color using CSS filter
-            mainLogo.style.filter = `
-                brightness(0) 
-                saturate(100%) 
-                invert(${color !== "#000000" ? 1 : 0})
-            `;
-        });
-    </script>
+logoPicker.addEventListener("input", () => {
+  const color = logoPicker.value;
+  logoHex.value = color;
+  mainLogo.style.filter = `invert(1) sepia(1) saturate(10000%) hue-rotate(0deg)`;
+  mainLogo.style.mixBlendMode = "normal";
+  mainLogo.style.filter = `brightness(0) saturate(100%) invert(${color !== "#000000" ? 1 : 0})`;
+});
+
+logoHex.addEventListener("input", () => {
+  const color = logoHex.value;
+  if (/^#([0-9A-F]{3}){1,2}$/i.test(color)) {
+    logoPicker.value = color;
+    mainLogo.style.filter = `brightness(0) saturate(100%) invert(${color !== "#000000" ? 1 : 0})`;
+  }
+});
+</script>
+
 </body>
 </html>
