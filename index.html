@@ -1,107 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rialo X Logo Customizer</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rialo X Logo Customizer</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f0e8;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f4f0e8;
+      margin: 0;
+      padding: 20px;
+    }
 
-        .logo-box {
-            width: 260px;
-            height: 260px;
-            background: #ede7f6;
-            border-radius: 20px;
-            margin: 20px auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: 0.3s ease;
-        }
+    .logo-box {
+      width: 200px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      transition: 0.3s ease;
+    }
 
-        #mainLogo {
-            width: 160px;
-            height: auto;
-            transition: 0.3s ease;
-            mix-blend-mode: multiply;   /* apply color blend */
-            background-color: #000000;  /* default color */
-        }
+    #mainLogo {
+      width: 120px;
+      height: auto;
+      transition: 0.3s ease;
+      mix-blend-mode: multiply;   /* allow tint color */
+      background-color: #000000;  /* default color */
+      filter: none;               /* remove black filter */
+    }
 
-        .section {
-            margin-top: 25px;
-        }
+    .section {
+      margin-bottom: 20px;
+    }
 
-        .footer {
-            margin-top: 40px;
-            font-size: 14px;
-        }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
 
-        a {
-            color: black;
-            font-weight: bold;
-            text-decoration: none;
-        }
-    </style>
+    input[type="color"], input[type="text"] {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      width: 140px;
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 14px;
+    }
+    a {
+      color: black;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  </style>
 </head>
 
 <body>
 
-    <h2>Rialo X Logo Customizer</h2>
+  <h2>Rialo X Logo Color Customizer</h2>
 
-    <!-- LOGO BOX -->
-    <div class="logo-box" id="bgBox">
-        <img id="mainLogo" src="./logo-main-white.png" alt="Logo" />
-    </div>
+  <!-- LOGO BOX -->
+  <div class="logo-box" id="bgBox">
+    <img id="mainLogo" src="./logo-main-white.png" alt="Logo" />
+  </div>
 
-    <!-- Background Color -->
-    <div class="section">
-        <label><b>Background Color</b></label><br>
-        <input type="color" id="bgColorPicker" value="#f4f0e8">
-    </div>
+  <!-- Background Color -->
+  <div class="section">
+    <label>Background Color</label>
+    <input type="color" id="bgColorPicker" value="#f4f0e8" />
+  </div>
 
-    <!-- Logo Color -->
-    <div class="section">
-        <label><b>Logo Color</b></label><br>
-        <input type="color" id="logoColorPicker" value="#000000">
-    </div>
+  <!-- Logo Color -->
+  <div class="section">
+    <label>Logo Color</label>
+    <input type="color" id="logoColorPicker" value="#000000" />
+  </div>
 
-    <div class="footer">
-        Made by Aryan — <a href="https://x.com/AryanXbt" target="_blank">@AryanXbt</a>
-    </div>
-
+  <div class="footer">
+    Made by Aryan — <a href="https://x.com/AryanXbt" target="_blank">@AryanXbt</a>
+  </div>
 
 <script>
-    // Background Color
-    const bgPicker = document.getElementById("bgColorPicker");
-    const bgBox = document.getElementById("bgBox");
+  // Background Color
+  const bgPicker = document.getElementById("bgColorPicker");
+  const bgBox = document.getElementById("bgBox");
 
-    bgPicker.addEventListener("input", () => {
-        bgBox.style.background = bgPicker.value;
-    });
+  bgPicker.addEventListener("input", () => {
+      bgBox.style.background = bgPicker.value;
+  });
 
-    // Logo Color
-    const logoPicker = document.getElementById("logoColorPicker");
-    const mainLogo = document.getElementById("mainLogo");
+  // Logo Color
+  const logoPicker = document.getElementById("logoColorPicker");
+  const mainLogo = document.getElementById("mainLogo");
 
-    logoPicker.addEventListener("input", () => {
-        const color = logoPicker.value;
+  logoPicker.addEventListener("input", () => {
+      const color = logoPicker.value;
 
-        // No filters, clean tint
-        mainLogo.style.filter = "none";
-
-        // Apply tint on white logo
-        mainLogo.style.backgroundColor = color;
-
-        // Perfect color blending
-        mainLogo.style.mixBlendMode = "multiply";
-    });
+      // Ensure clean tint
+      mainLogo.style.filter = "none";
+      mainLogo.style.backgroundColor = color;
+      mainLogo.style.mixBlendMode = "multiply";
+  });
 </script>
 
 </body>
