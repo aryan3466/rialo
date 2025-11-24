@@ -65,7 +65,7 @@
   <h2>Rialo X Logo Color Customizer</h2>
 
   <div class="logo-box" id="bgBox">
-    <img id="mainLogo" src="./logo-main.jpg" alt="Logo" />
+    <img id="mainLogo" src="./logo-main-transparent.png" alt="Logo" />
   </div>
 
   <!-- Background Color -->
@@ -95,7 +95,25 @@
     const bgPicker = document.getElementById("bgColorPicker");
     const bgBox = document.getElementById("bgBox");
 
-    bgPicker.addEventListener("input", (
+    bgPicker.addEventListener("input", () => {
+        bgBox.style.background = bgPicker.value;
+    });
+
+    // Logo Color
+    const logoPicker = document.getElementById("logoColorPicker");
+    const mainLogo = document.getElementById("mainLogo");
+
+    logoPicker.addEventListener("input", () => {
+        const color = logoPicker.value;
+
+        // Remove old filters completely
+        mainLogo.style.filter = "none";
+
+        // Apply color overlay using CSS blend mode
+        mainLogo.style.mixBlendMode = "multiply";
+        mainLogo.style.backgroundColor = color;
+    });
+</script>
 
 </body>
 </html>
