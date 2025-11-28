@@ -1,126 +1,215 @@
-<!-- Rialo Website Clone (Irys Debit Style) -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rialo Debit</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: #ffffff;
+/*
+Rialo Demo Website (single-file React + Tailwind)
+This file is a self-contained React component you can drop into a Create React App / Vite + React + Tailwind project.
+
+How to use:
+1. Create a new React app (Vite recommended):
+   npm create vite@latest rialo-demo --template react
+   cd rialo-demo
+2. Install Tailwind and set it up (follow Tailwind + Vite instructions).
+3. Replace App.jsx with this file's content and run `npm install` then `npm run dev`.
+4. Commit to GitHub and enable GitHub Pages or deploy on Vercel/Netlify.
+
+What this demo shows:
+- Left column: Traditional oracle-based flow. You can change network latency and toggle an oracle failure to see how the app waits or fails.
+- Right column: Rialo 'native' flow simulation — an on-chain native data pipe that posts data as events. No external "waiting"; state updates are immediate in the demo.
+- Bottom: Event log and simple explanations.
+
+Note: This is a visualization / educational demo only — it simulates oracle delays/failures and Rialo-style native event updates.
+*/
+
+import React, { useState, useEffect, useRef } from "react";
+
+export default function RialoDemo() {
+  const [price, setPrice] = useState(100);
+  const [oracleLatency, setOracleLatency] = useState(2000); // ms
+  const [oracleFail, setOracleFail] = useState(false);
+  const [oracleRequesting, setOracleRequesting] = useState(false);
+  const [oraclePrice, setOraclePrice] = useState(null);
+  const [rialoPrice, setRialoPrice] = useState(100);
+  const [logs, setLogs] = useState([]);
+  const counterRef = useRef(0);
+
+  // helper to push log
+  function pushLog(text) {
+    setLogs((l) => [{ id: ++counterRef.current, time: new Date(), text }, ...l].slice(0, 50));
+  }
+
+  // Simulate the real-world data source changing randomly
+  useEffect(() => {
+    const t = setInterval(() => {
+      // small random walk
+      setPrice((p) => {
+        const next = Math.round((p + (Math.random() - 0.5) * 2) * 100) / 100;
+        pushLog(`Real-world source: price updated -> ${next}`);
+        return next;
+      });
+    }, 3500);
+    return () => clearInterval(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Traditional oracle request
+  async function requestOracle() {
+    pushLog("Oracle: request started");
+    setOracleRequesting(true);
+    setOraclePrice(null);
+    try {
+      await new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (oracleFail && Math.random() < 0.6) {
+            reject(new Error("Oracle provider failure (simulated)"));
+          } else {
+            resolve();
+          }
+        }, oracleLatency);
+      });
+      setOraclePrice(price);
+      pushLog(`Oracle: returned price -> ${price}`);
+    } catch (e) {
+      pushLog(`Oracle ERROR: ${e.message}`);
+      setOraclePrice(null);
+    } finally {
+      setOracleRequesting(false);
     }
+  }
 
-    .container {
-      display: flex;
-      height: 100vh;
-    }
+  // Rialo-style: simulate on-chain native event push
+  useEffect(() => {
+    // Simulate Rialo pushing an event as soon as source changes — no external wait
+    // We'll sample the real-world source at a quick cadence to simulate native feed
+    const t = setInterval(() => {
+      // small probability to skip to simulate network/transient
+      if (Math.random() > 0.02) {
+        setRialoPrice((_) => {
+          pushLog(`Rialo event: price published -> ${price}`);
+          return price;
+        });
+      } else {
+        pushLog("Rialo: transient missed event (very rare)");
+      }
+    }, 2200);
+    return () => clearInterval(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [price]);
 
-    /* Left Panel */
-    .left {
-      width: 50%;
-      padding: 60px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
+  // quick demo action to compare both flows side-by-side
+  function compareNow() {
+    pushLog("--- Compare: Requested both flows ---");
+    requestOracle();
+    // Rialo is event-driven so the latest rialoPrice already reflects near-real-time
+    pushLog(`Rialo: current on-chain state -> ${rialoPrice}`);
+  }
 
-    .title {
-      font-size: 48px;
-      font-weight: 900;
-      margin-bottom: 10px;
-    }
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-slate-100 p-6">
+      <div className="max-w-6xl mx-auto">
+        <header className="flex items-center justify-between mb-6">
+          <h1 className="text-3xl font-bold">Rialo Visual Demo — Oracle vs Native Data</h1>
+          <div className="text-sm text-slate-300">Educational simulation for GitHub demo</div>
+        </header>
 
-    .subtitle {
-      font-size: 20px;
-      opacity: 0.7;
-      margin-bottom: 30px;
-    }
+        <main className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Oracle column */}
+          <section className="bg-slate-700/40 rounded-2xl p-5 shadow-lg">
+            <h2 className="text-xl font-semibold mb-3">Traditional Oracle Flow</h2>
+            <p className="text-sm text-slate-300 mb-4">Classic pattern: dApp asks an external oracle provider for data; waits for a response. This demo simulates network latency and potential oracle failures.</p>
 
-    .colors {
-      display: flex;
-      gap: 12px;
-      margin-top: 20px;
-    }
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <label className="text-sm w-32">Network latency:</label>
+                <input type="range" min="200" max="8000" value={oracleLatency} onChange={(e) => setOracleLatency(Number(e.target.value))} />
+                <div className="text-sm w-24 text-right">{oracleLatency} ms</div>
+              </div>
 
-    .color-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      cursor: pointer;
-      border: 2px solid #00000010;
-    }
+              <div className="flex items-center gap-3">
+                <label className="text-sm w-32">Force failure:</label>
+                <input type="checkbox" checked={oracleFail} onChange={(e) => setOracleFail(e.target.checked)} />
+                <div className="text-sm text-slate-300">Simulate provider instability</div>
+              </div>
 
-    /* Right Panel */
-    .right {
-      width: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #f7f7f7;
-    }
+              <div className="rounded-xl p-4 bg-slate-800/60">
+                <div className="text-sm">Real-world source (external API): <span className="font-mono">{price}</span></div>
+                <div className="text-sm mt-2">Oracle status: {oracleRequesting ? <span className="italic">Requesting…</span> : <span>{oraclePrice ?? 'no data yet'}</span>}</div>
 
-    .card {
-      width: 360px;
-      height: 220px;
-      background: #dfe0ff;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      transition: 0.3s;
-    }
+                <div className="mt-3 flex gap-2">
+                  <button onClick={requestOracle} className="px-3 py-1 rounded bg-indigo-600 hover:bg-indigo-500">Request Oracle</button>
+                  <button onClick={() => { setOraclePrice(null); pushLog('Oracle: manual clear'); }} className="px-3 py-1 rounded border">Clear</button>
+                </div>
+              </div>
 
-    #logoIMG {
-      width: 160px;
-      mix-blend-mode: multiply;
-      background-color: #000000;
-      transition: 0.3s;
-    }
-  </style>
-</head>
-<body>
+            </div>
+          </section>
 
-<div class="container">
+          {/* Rialo column */}
+          <section className="bg-slate-700/40 rounded-2xl p-5 shadow-lg">
+            <h2 className="text-xl font-semibold mb-3">Rialo Native Data Flow (Simulated)</h2>
+            <p className="text-sm text-slate-300 mb-4">Rialo's design aims to make real-world data a native, first-class part of the chain. Here we simulate event-driven on-chain updates that remove the need for a separate oracle roundtrip.</p>
 
-  <div class="left">
-    <div class="title">Rialo Debit</div>
-    <div class="subtitle">Customize your Rialo look instantly.</div>
+            <div className="rounded-xl p-4 bg-slate-800/60">
+              <div className="text-sm">On-chain (Rialo) published price: <span className="font-mono">{rialoPrice}</span></div>
+              <div className="text-sm mt-2">Staleness: <StalenessIndicator value={rialoPrice} reference={price} /></div>
 
-    <h3>Pick a Color</h3>
-    <div class="colors">
-      <div class="color-btn" data-color="#000000" style="background:#000000"></div>
-      <div class="color-btn" data-color="#ff4d4d" style="background:#ff4d4d"></div>
-      <div class="color-btn" data-color="#4d79ff" style="background:#4d79ff"></div>
-      <div class="color-btn" data-color="#4dff88" style="background:#4dff88"></div>
-      <div class="color-btn" data-color="#ffcc00" style="background:#ffcc00"></div>
+              <div className="mt-3 flex gap-2">
+                <button onClick={() => { setRialoPrice(price); pushLog('Rialo: manual publish'); }} className="px-3 py-1 rounded bg-emerald-600 hover:bg-emerald-500">Manual Publish</button>
+                <button onClick={() => { setRialoPrice(100); pushLog('Rialo: reset'); }} className="px-3 py-1 rounded border">Reset</button>
+              </div>
+
+              <div className="mt-4 text-xs text-slate-300">Note: In this demo the Rialo side subscribes to the source and posts events immediately — removing a separate provider roundtrip. In real systems there are important design tradeoffs (validation, economic incentives, censorship-resistance).</div>
+            </div>
+          </section>
+        </main>
+
+        <section className="mt-6 bg-slate-700/30 rounded-2xl p-5 shadow-inner">
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="text-lg font-semibold">Quick Actions</h3>
+            <div className="flex gap-2">
+              <button onClick={compareNow} className="px-3 py-1 rounded bg-violet-600">Compare Now</button>
+              <button onClick={() => { setLogs([]); pushLog('Logs cleared'); }} className="px-3 py-1 rounded border">Clear Logs</button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="col-span-1 md:col-span-2">
+              <h4 className="text-sm font-medium mb-2">Event Log</h4>
+              <div className="h-56 overflow-auto bg-slate-900/40 p-3 rounded-lg">
+                {logs.length === 0 ? (
+                  <div className="text-sm text-slate-400">No events yet — interact with controls to start the demo.</div>
+                ) : (
+                  logs.map((l) => (
+                    <div key={l.id} className="text-sm text-slate-200/90 mb-2">
+                      <div className="text-xs text-slate-400">{l.time.toLocaleTimeString()}</div>
+                      <div className="font-mono">{l.text}</div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+
+            <div className="col-span-1">
+              <h4 className="text-sm font-medium mb-2">Explanation</h4>
+              <div className="text-sm text-slate-300 bg-slate-900/40 p-3 rounded-lg">
+                <p className="mb-2">Oracle flow: the dApp requests data and waits. If the provider is slow or fails, user experience stalls. Rialo flow: data producers publish events natively to the chain — the chain reacts when events occur.</p>
+                <p className="mb-1 font-semibold">Try it:</p>
+                <ol className="text-xs list-decimal pl-4 text-slate-400">
+                  <li>Increase latency and toggle failure, then click <em>Request Oracle</em> — observe delay / error.</li>
+                  <li>Watch the Rialo column update automatically when the source changes or click <em>Manual Publish</em>.</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <footer className="mt-6 text-sm text-slate-400">Made for educational demo • Commit this file to GitHub and deploy to Vercel/Netlify for a live demo.</footer>
+      </div>
     </div>
-  </div>
+  );
+}
 
-  <div class="right">
-    <div class="card" id="cardBox">
-      <img id="logoIMG" src="./logo-main-white.png" alt="Rialo Logo" />
-    </div>
-  </div>
-
-</div>
-
-<script>
-  const buttons = document.querySelectorAll('.color-btn');
-  const logo = document.getElementById('logoIMG');
-  const cardBox = document.getElementById('cardBox');
-
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const color = btn.getAttribute('data-color');
-      logo.style.backgroundColor = color;
-      cardBox.style.background = color + '30'; // light tint card
-    });
-  });
-</script>
-
-</body>
-</html>
+function StalenessIndicator({ value, reference }) {
+  const diff = Math.abs((reference ?? 0) - (value ?? 0));
+  if (diff < 0.01) return <span className="text-emerald-400">fresh</span>;
+  if (diff < 0.5) return <span className="text-yellow-300">slightly stale ({diff.toFixed(2)})</span>;
+  return <span className="text-red-400">stale ({diff.toFixed(2)})</span>;
+}
